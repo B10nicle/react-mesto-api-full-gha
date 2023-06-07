@@ -4,6 +4,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { errors } = require('celebrate');
 const router = require('./routes/router');
 const {
@@ -24,6 +25,7 @@ const {
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.post('/signin', loginValidation, login);
 app.post('/signup', createUserValidation, createUser);
 app.use(auth);
