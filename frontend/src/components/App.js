@@ -37,7 +37,7 @@ function App() {
             .catch(err => console.log(err))
 
         api.getCards().then(data => {
-            setCards(data.map((card) => ({
+            setCards(data.reverse().map((card) => ({
                 _id: card._id,
                 name: card.name,
                 link: card.link,
