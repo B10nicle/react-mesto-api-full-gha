@@ -16,7 +16,7 @@ module.exports = (request, response, next) => {
   const token = authorization.replace('Bearer ', '');
 
   try {
-    payload = jwt.verify(token, 'cat');
+    payload = jwt.verify(token, 'dev-key');
   } catch (err) {
     return next(new UnauthorizedError('You need to log in'));
   }
