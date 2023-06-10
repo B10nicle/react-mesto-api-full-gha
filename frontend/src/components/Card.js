@@ -1,11 +1,12 @@
 import {useContext} from 'react';
-import CurrentUserContext from '../contexts/CurrentUserContext';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Card({card, onCardLike, onCardDelete, onCardClick}) {
     const currentUser = useContext(CurrentUserContext);
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
+    const isLiked = card.likes.some(userId => userId === currentUser._id);
     const likeButtonClassName = `cards__item-like pointer ${isLiked ? 'cards__item-like_active' : ''}`;
-    const isOwner = card.owner._id === currentUser._id;
+
+    const isOwner = card.owner === currentUser._id;
     const deleteButtonClassName = `cards__delete pointer ${isOwner ? 'cards__delete_active' : ''}`;
 
     function handleLikeClick() {

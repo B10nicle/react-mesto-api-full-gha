@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {Route, Redirect, useHistory} from "react-router-dom";
-import CurrentUserContext from '../contexts/CurrentUserContext';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import ProtectedRoute from "./ProtectedRoute";
@@ -90,11 +90,11 @@ function App() {
     }
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(user => user._id === currentUser._id);
+        const isLiked = card.likes.some(userId => userId === currentUser._id);
         api.setLike(card._id, !isLiked)
-            .then(newCard => setCards((
+            .then(data => setCards((
                 state) => state.map(
-                item => item._id === card._id ? newCard : item)))
+                item => item._id === card._id ? data.data : item)))
             .catch(err => console.log(err));
     }
 
@@ -167,7 +167,7 @@ function App() {
                 .then((data) => {
                     if (data) {
                         setIsLoggedIn(true);
-                        setHeaderEmail(data.data.email);
+                        setHeaderEmail(data.email);
                         history.push("/");
                     }
                 })
