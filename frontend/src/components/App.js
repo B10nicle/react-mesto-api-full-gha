@@ -32,20 +32,22 @@ function App() {
     const history = useHistory();
 
     useEffect(() => {
-        api.getUserInfo()
-            .then(profileInfo => setCurrentUser(profileInfo))
-            .catch(err => console.log(err))
+        if (isLoggedIn) {
+            api.getUserInfo()
+                .then(profileInfo => setCurrentUser(profileInfo))
+                .catch(err => console.log(err))
 
-        api.getCards().then(data => {
-            setCards(data.reverse().map((card) => ({
-                _id: card._id,
-                name: card.name,
-                link: card.link,
-                likes: card.likes,
-                owner: card.owner
-            })))
-        })
-            .catch(err => console.log(err))
+            api.getCards().then(data => {
+                setCards(data.reverse().map((card) => ({
+                    _id: card._id,
+                    name: card.name,
+                    link: card.link,
+                    likes: card.likes,
+                    owner: card.owner
+                })))
+            })
+                .catch(err => console.log(err))
+        }
     }, []);
 
     function closeAllPopups() {
