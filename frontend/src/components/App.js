@@ -48,7 +48,7 @@ function App() {
             })
                 .catch(err => console.log(err))
         }
-    }, []);
+    }, [isLoggedIn]);
 
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false)
