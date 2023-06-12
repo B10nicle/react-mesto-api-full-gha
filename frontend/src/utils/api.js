@@ -1,20 +1,27 @@
 class Api {
     constructor(options) {
-        this._baseUrl = options.baseUrl
-        this._headers = options.headers
+        this._url = options.url
     }
 
     getCards() {
-        return fetch(`${this._baseUrl}/cards`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            }
         }).then(res => this._checkResponse(res));
     }
 
     setCard(data) {
-        return fetch(`${this._baseUrl}/cards`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -23,31 +30,47 @@ class Api {
     }
 
     deleteCard(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
         }).then(res => this._checkResponse(res));
     }
 
     getUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
         }).then(res => this._checkResponse(res));
     }
 
     setUserInfo(forms) {
-        return fetch(`${this._baseUrl}/users/me`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
             body: JSON.stringify(forms)
         }).then(res => this._checkResponse(res));
     }
 
     setUserAvatar(data) {
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
             body: JSON.stringify({
                 avatar: data.avatar
             })
@@ -55,9 +78,13 @@ class Api {
     }
 
     setLike(cardId, isLiked) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        const token = localStorage.getItem("jwt");
+        return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: `${isLiked ? 'PUT' : 'DELETE'}`,
-            headers: this._headers,
+            headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${token}`,
+            },
         }).then(res => this._checkResponse(res));
     }
 
@@ -68,13 +95,8 @@ class Api {
     }
 }
 
-const _token = localStorage.getItem("jwt");
 const api = new Api({
-    baseUrl: "https://api.b10nicle.nomoredomains.rocks",
-    headers: {
-        "content-type": "application/json",
-        "authorization": `Bearer ${_token}`,
-    }
+    url: "https://api.b10nicle.nomoredomains.rocks"
 });
 
 export default api;
